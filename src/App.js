@@ -6,26 +6,31 @@ const App = () => {
   const [otp, setOtp] = useState("");
 
   useEffect(() => {
+    console.log("inside use effect");
     if ("OTPCredential" in window) {
-      const ac = new AbortController();
-
+      // const ac = new AbortController();
+      console.log("below ac otp credentials");
       navigator.credentials
         .get({
           otp: { transport: ["sms"] },
-          signal: ac.signal,
-          
+          // signal: ac.signal,
         })
         .then((otp) => {
-          setOtp(otp.code);
+          console.log("Reached here!! PRinting OTP");
           console.log(otp);
-          ac.abort();
+          setOtp(otp.code);
+          // ac.abort();
         })
         .catch((err) => {
-          ac.abort();
+          console.log("Reached error block Printing error");
           console.log(err);
+          // ac.abort();
         });
+      console.log("credentials path ");
+    } else {
+      console.log("otp credentials not available");
     }
-  });
+  }, []);
 
   return (
     <div className="App">
